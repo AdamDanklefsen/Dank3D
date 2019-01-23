@@ -4,7 +4,7 @@
 // Window Class
 Window::WindowClass Window::WindowClass::wndClass;
 
-Window::WindowClass::WindowClass() noexcept	:
+Window::WindowClass::WindowClass() noexcept :
 	hInst(GetModuleHandle(nullptr)) {
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
@@ -85,11 +85,23 @@ LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	switch (msg) {
-		// we don't want the DefProc to handle this message because
-		// we want our destructor to destroy the window, so return 0 instead of break
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
+	case WM_KEYDOWN:
+		if (wParam == 'W') {
+			SetWindowTextA(hWnd, "W");
+		}
+		if (wParam == 'A') {
+			SetWindowTextA(hWnd, "A");
+		}
+		if (wParam == 'S') {
+			SetWindowTextA(hWnd, "S");
+		}
+		if (wParam == 'D') {
+			SetWindowTextA(hWnd, "D");
+		}
+		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
